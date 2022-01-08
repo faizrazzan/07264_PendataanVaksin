@@ -3,7 +3,7 @@ package Entity;
 public class AdminEntity07264 extends UserEntityAbstract_07264 {
     protected String nip, password;
 
-    public AdminEntity07264(){}
+    public AdminEntity07264(String nipAdmin, String pw, int id){}
     public AdminEntity07264(int id, String nip, String nama, String alamat, String password, String noTelp) {
         this.id=id;
         this.nip = nip;
@@ -11,6 +11,10 @@ public class AdminEntity07264 extends UserEntityAbstract_07264 {
         this.nama=nama;
         this.alamat=alamat;
         this.noTelp=noTelp;
+    }
+
+    public AdminEntity07264() {
+
     }
 
     public String getNip_07264() {

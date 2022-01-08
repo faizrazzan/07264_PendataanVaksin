@@ -2,6 +2,7 @@ import Controller.AdminController_07264;
 import Controller.PendudukController_07264;
 import Entity.AdminEntity07264;
 import Entity.PendudukEntity07264;
+import GUI.*;
 import Helper.KoneksiDb_07264;
 
 import java.sql.Connection;
@@ -11,12 +12,15 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class main_07264 {
+
+
     public static Scanner input = new Scanner(System.in);
     public static AdminController_07264 adminController07264 = new AdminController_07264();
     public static PendudukController_07264 pendudukController07264 = new PendudukController_07264();
 
     public static void main(String[] args) {
-        int choice, choices;
+        new Login_07264();
+       /* int choice, choices;
         int idAdmin = 0;
         //public void gui() {}
         while (true) {
@@ -269,5 +273,8 @@ public class main_07264 {
         String dosis = input.next();
         PendudukController_07264 cont = new PendudukController_07264();
         cont.updateDosis_07264(dosis, id);
+    }
+
+     */
     }
 }

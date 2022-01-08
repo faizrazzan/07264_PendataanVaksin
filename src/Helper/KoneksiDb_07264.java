@@ -2,6 +2,8 @@ package Helper;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 public class KoneksiDb_07264 {
     public static Connection getconection_07264() {
@@ -20,5 +22,17 @@ public class KoneksiDb_07264 {
             e.printStackTrace();
         }
         return conn;
+    }
+    public static void closeDB_07264(Connection conn, PreparedStatement pstmt) {
+        try{
+            if (conn != null)
+                conn.close();
+            if (pstmt != null)
+                pstmt.close();
+            System.out.println("Database connection has been closed.");
+        }catch (SQLException e) {
+            System.out.println("Failed to close database");
+            e.printStackTrace();
+        }
     }
 }

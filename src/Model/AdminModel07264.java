@@ -7,8 +7,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-public class AdminModel07264 extends ModelAbstrack_07264 {
+public class AdminModel07264{
+    private Connection conn = null;
+    private PreparedStatement pstmt = null;
     String sql;
 
     public void insertData_07264(AdminEntity07264 adminEntity){
@@ -21,12 +24,9 @@ public class AdminModel07264 extends ModelAbstrack_07264 {
                     adminEntity.getPassword_07264(),
                     adminEntity.getNoTelp_07264()
             );
+            conn = KoneksiDb_07264.getconection_07264();
             PreparedStatement statement = conn.prepareStatement(sql);
-            if(statement.executeUpdate() > 0){
-                System.out.println("Berhasil Menambah Data Admin");
-            }else{
-                System.out.println("Gagal Menambah Data Admin");
-            }
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -107,4 +107,76 @@ public class AdminModel07264 extends ModelAbstrack_07264 {
             e.printStackTrace();
         }
     }
+    public AdminEntity07264 loginCheck(String nip, String password) {
+        AdminEntity07264 adminEntity = null;
+        try {
+            String sql = "select * from db_vaksin.admin sa " +
+                    "where sa.nip = '"+ nip +
+                    "' and sa.password = '" + password +"';";
+            conn = KoneksiDb_07264.getconection_07264();
+            pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                String nipAdmin = rs.getString("nip");
+                String pw = rs.getString("password");
+                int id = rs.getInt("id");
+                System.out.println(nip);
+                adminEntity = new AdminEntity07264(nipAdmin, pw, id);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            KoneksiDb_07264.closeDB_07264(conn, pstmt);
+        }
+        return adminEntity;
+    }
+    public ArrayList<AdminEntity07264> getAdmin() {
+        ArrayList<AdminEntity07264> admindata = new ArrayList<>();
+        try {
+            String sql = "select * from db_vaksin.admin";
+            conn = KoneksiDb_07264.getconection_07264();
+            pstmt = conn.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            System.out.println(pstmt.toString());
+            while (rs.next()) {
+                AdminEntity07264 adminEntity = new AdminEntity07264();
+                adminEntity.setId_07264(rs.getInt("id"));
+                adminEntity.setNip_07264(rs.getString("nip"));
+                adminEntity.setNama_07264(rs.getString("nama"));
+                adminEntity.setAlamat_07264(rs.getString("alamat"));
+                adminEntity.setPassword_07264(rs.getString("password"));
+                adminEntity.setNoTelp_07264(rs.getString("notelp"));
+                admindata.add(adminEntity);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            KoneksiDb_07264.closeDB_07264(conn, pstmt);
+        }
+        return admindata;
+    }
+
+    public void updateAdmin (AdminEntity07264 admin) {
+        try {
+            conn = KoneksiDb_07264.getconection_07264();
+            // Benar kan ini
+            String sql = "UPDATE db_vaksin.admin t set t.password = '%s', t.notelp = '%s' where t.id = %d";
+            sql = String.format(sql, admin.getPassword_07264(), admin.getNoTelp_07264(), admin.getId_07264());
+            pstmt = conn.prepareStatement(sql);
+            pstmt.executeUpdate();
+            System.out.println(pstmt.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            KoneksiDb_07264.closeDB_07264(conn, pstmt);
+        }
+    }
+
+
+
+
+    /*public void updatePassword_07264(AdminEntity07264 adminUpdate) {
+    }
+
+     */
 }

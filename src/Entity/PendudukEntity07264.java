@@ -14,6 +14,7 @@ public class PendudukEntity07264 extends UserEntityAbstract_07264 {
         this.noTelp=noTelp;
     }
 
+
     public String getNik_07264() {
         return nik;
     }
